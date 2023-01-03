@@ -34,3 +34,28 @@ with tf.GradientTape() as tape:
 y_grad = tape.gradient(y, x)
 
 print('y = x^2 =', y, ', y\' =', y_grad, ', x =', x.numpy())
+
+
+# muti differential
+# matrix x y
+# L = |wx + b + y|^2
+x = tf.constant([[1., 2.], [3., 4.]])
+y = tf.constant([[10.], [20.]])
+w = tf.Variable(initial_value=[[1.], [10.]])
+b = tf.Variable(initial_value=3.)
+
+with tf.GradientTape() as tape:
+    L = tf.reduce_sum(tf.square(tf.matmul(x, w) + b + y))
+
+w_grad, b_grad = tape.gradient(L, [w, b])
+
+print(L, w_grad, b_grad)
+
+
+# reduce d sum
+print('reduce d sum')
+x = tf.constant([[1, 1, 1], [1, 1, 1]])
+print('1.', x.numpy())
+print('2.', tf.reduce_sum(x, 0).numpy())
+print('3.', tf.reduce_sum(x, 1).numpy())
+print('4.', tf.reduce_sum(x, 1, keepdims=True).numpy())
